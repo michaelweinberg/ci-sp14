@@ -4,17 +4,16 @@
 		
 		function __construct(){
 			parent::__construct();
-			$this->load->helper('url');
- 		}//end constructor
+                        $this->load->model('Mailing_list_model');
+			 }//end constructor
 		
 		public function index(){
-			$this->load->model('Mailing_list_model');
 			$data['query'] = $this->Mailing_list_model->get_mailing_list();
+                        $this->config->set_item('style','cerulean.css');
 			$data['title'] = "Here is our title tag!";
-			$data['style'] = "cerulean.css";
 			$data['banner'] = "Here is our web site!";
 			$data['copyright'] = "copyright goes here!";
-			$data['base_url'] = base_url();
+			//$data['base_url'] = base_url();
 			$this->load->view('header',$data);
 			$this->load->view('view_mailing_list',$data);
 			$this->load->view('footer',$data);
@@ -22,13 +21,12 @@
 		
 		public function view($id){
 			//this will show us the data from a single page
-			$this->load->model('Mailing_list_model');
-			$data['query'] = $this->Mailing_list_model->get_id($id);
+                        $data['query'] = $this->Mailing_list_model->get_id($id);
 			$data['title'] = "Here is our title tag!";
-			$data['style'] = "cerulean.css";
+			
 			$data['banner'] = $id;
 			$data['copyright'] = "copyright goes here!";
-			$data['base_url'] = base_url();
+			//$data['base_url'] = base_url();
 			$this->load->view('header',$data);
 			$this->load->view('view_mailing_list_detail',$data);
 			$this->load->view('footer',$data);
@@ -38,18 +36,15 @@
 			//form to add a new record
 			$this->load->helper('form');
 			$data['title'] = "Adding a record";
-			$data['style'] = "cerulean.css";
 			$data['banner'] = "Banner";
 			$data['copyright'] = "copyright goes here!";
-			$data['base_url'] = base_url();
 			$this->load->view('header',$data);
 			$this->load->view('add_mailing_list',$data);
 			$this->load->view('footer',$data);			
-			
-		}
+				}
 		
 		public function insert(){//will insert data via add
-			$this->load->model('Mailing_list_model');
+			
 			$this->load->library('form_validation');
 			$this->form_validation->set_rules('email','Email','trim|required|valid_email');
                         $this->form_validation->set_rules('first_name','First Name','trim|required');
@@ -59,7 +54,6 @@
                         $this->form_validation->set_rules('username','Username','trim|required');
                         $this->form_validation->set_rules('password','Password','trim|required');
 			//must have at least one validation rule to insert			
-
 			
 			if($this->form_validation->run() == FALSE){
 				//view data on failure goes here
@@ -69,7 +63,6 @@
 			$data['style'] = "cerulean.css";
 			$data['banner'] = "Data Entry Error";
 			$data['copyright'] = "copyright goes here!";
-			$data['base_url'] = base_url();
 			$this->load->view('header',$data);
 			$this->load->view('add_mailing_list',$data);
 			$this->load->view('footer',$data);
